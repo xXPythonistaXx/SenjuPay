@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SenjuPay.API.Data;
 using SenjuPay.API.Model;
 
 namespace SenjuPay.API.Controllers
@@ -12,8 +13,10 @@ namespace SenjuPay.API.Controllers
     [Route("api/[controller]")]
     public class EmpresaController : ControllerBase
     {
-        public EmpresaController()
+        private readonly DataContext _context;
+        public EmpresaController(DataContext context)
         {
+            _context = context;
 
         }
         public IEnumerable<Empresa> _empresa = new Empresa[]{
@@ -34,17 +37,17 @@ namespace SenjuPay.API.Controllers
             DataCadastro = DateTime.Now
             }
          };
-                
+
         [HttpGet]
-        public IEnumerable<Empresa> GetById()
+        public IEnumerable<Empresa> Get()
         {
-            return _empresa;
-        }
-        
+            return _context.Empresas;
+        }       
+
         [HttpGet("{id}")]
-        public IEnumerable<Empresa> GetById(int id)
+        public Empresa GetById(int id)
         {
-            return _empresa.Where(empresa => empresa.EmpresaId == id);
+            return _context.Empresas.FirstOrDefault(empresa => empresa.EmpresaId == id);
         }
     }
 }
