@@ -1,8 +1,57 @@
-<h1>Empresas Component</h1>
+<br>
+<h2>Empresas</h2>
+<hr>
 
-
-<div *ngFor="let empresa of empresas">
-  <p><b>Razão Social: </b> {{empresa.razaoSocial}}</p>
-  <p><b>CNPJ: </b> {{empresa.cnpj}}</p>
-  <hr>
+<div class="d-flex">
+  <div class="d-flex">
+    <input class="form-control me-2" type="search" placeholder="Filtro" aria-label="Search"
+    [(ngModel)]="empresasFilter">
+  </div>
 </div>
+
+<br>
+<table class="table table-striped">
+  <thead class="table-dark" >
+    <tr>
+      <th>
+        <button class="btn btn-outline-light btn-sm" type="button"
+          (click)="changeImage()">
+          {{showImage ? "Exibir" : "Ocultar"}}
+        </button>
+      </th>
+      <th>#</th>
+      <th>Razao Social</th>
+      <th>CNPJ</th>
+      <th>Segmento</th>
+      <th>Data Inclusão</th>
+      <th>Opções</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="empresas && empresas.length">
+    <tr *ngFor="let empresa of empresasFiltradas">
+      <td>
+        <img [collapse]="showImage"
+        [isAnimated]="true"
+        src="/assets/{{empresa.logoOficial}}"
+        [style.width.px] = "150">
+      </td>
+      <td>{{empresa.empresaId}}</td>
+      <td>{{empresa.razaoSocial}}</td>
+      <td>{{empresa.cnpj}}</td>
+      <td>{{empresa.segmento}}</td>
+      <td>{{empresa.dataCadastro}}</td>
+      <td>
+        <button type="button"  class="btn btn-primary btn-sm me-2">Editar</button>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="!empresas.length">
+    <tr>
+      <td colspan="8" class="text-center">
+        <h4>
+          Nenhum evento encontrado
+        </h4>
+      </td>
+    </tr>
+  </tfoot>
+</table>
